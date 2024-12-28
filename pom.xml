@@ -19,7 +19,7 @@
     </properties>
 
     <modules>
-
+        <module>error-handler-spring-starter</module>
     </modules>
 
     <dependencyManagement>
