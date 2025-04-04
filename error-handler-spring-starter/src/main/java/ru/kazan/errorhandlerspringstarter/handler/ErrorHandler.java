@@ -27,25 +27,28 @@ public class ErrorHandler {
 
     @ExceptionHandler({HttpMessageNotReadableException.class,
             MissingServletRequestParameterException.class})
-    public ResponseEntity<ErrorResponse> catchMessageNotReadableException(HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> catchMessageNotReadableException(Exception ex, HttpServletRequest request) {
         ExceptionEnum exceptionMessage = ExceptionEnum.UNSUPPORTED_MEDIA_TYPE;
         ErrorResponse response = getExceptionResponse(request, exceptionMessage);
+        log.error("[ {} ] - ", ex.getMessage(), ex);
         return new ResponseEntity<>(response, exceptionMessage.getHttpStatus());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorResponse> catchMethodNotAllowed(HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> catchMethodNotAllowed(Exception ex, HttpServletRequest request) {
         ExceptionEnum exceptionMessage = ExceptionEnum.METHOD_NOT_ALLOWED;
         ErrorResponse response = getExceptionResponse(request, exceptionMessage);
+        log.error("[ {} ] - ", ex.getMessage(), ex);
         return new ResponseEntity<>(response, exceptionMessage.getHttpStatus());
     }
 
     @ExceptionHandler({
             SignatureException.class,
     })
-    public ResponseEntity<ErrorResponse> catchUnauthorized(HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> catchUnauthorized(Exception ex, HttpServletRequest request) {
         ExceptionEnum exceptionMessage = ExceptionEnum.UNAUTHORIZED;
         ErrorResponse response = getExceptionResponse(request, exceptionMessage);
+        log.error("[ {} ] - ", ex.getMessage(), ex);
         return new ResponseEntity<>(response, exceptionMessage.getHttpStatus());
     }
 
@@ -57,16 +60,18 @@ public class ErrorHandler {
             NullPointerException.class,
             MissingRequestHeaderException.class
     })
-    public ResponseEntity<ErrorResponse> catchMethodArgumentTypeMismatchException(HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> catchMethodArgumentTypeMismatchException(Exception ex, HttpServletRequest request) {
         ExceptionEnum exceptionMessage = ExceptionEnum.BAD_REQUEST;
         ErrorResponse response = getExceptionResponse(request, exceptionMessage);
+        log.error("[ {} ] - ", ex.getMessage(), ex);
         return new ResponseEntity<>(response, exceptionMessage.getHttpStatus());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> catchOtherException(HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> catchOtherException(Exception ex, HttpServletRequest request) {
         ExceptionEnum exceptionMessage = ExceptionEnum.INTERNAL_SERVER_ERROR;
         ErrorResponse response = getExceptionResponse(request, exceptionMessage);
+        log.error("[ {} ] - ", ex.getMessage(), ex);
         return new ResponseEntity<>(response, exceptionMessage.getHttpStatus());
     }
 
